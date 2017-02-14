@@ -51,8 +51,9 @@ Article.fetchAll = function() {
     // When rawData is already in localStorage,
     // we can load it with the .loadAll function above,
     // and then render the index page (using the proper method on the articleView object).
-    Article.loadAll(); //TODO: What do we pass in to loadAll()?
-    //TODO: What method do we call to render the index page?
+    Article.loadAll(JSON.parse(localStorage.getItem('rawData'))); //DONE: What do we pass in to loadAll()?
+    //DONE: What method do we call to render the index page?
+    articleView.initIndexPage();
   } else {
     console.log('storing data from JSON');
     // DONE: When we don't already have the rawData,
@@ -60,9 +61,10 @@ Article.fetchAll = function() {
     // cache it in localStorage so we can skip the server call next time,
     // then load all the data into Article.all with the .loadAll function above,
     // and then render the index page.
-    $.getJSON('../data/hackerIpsum.json').then(function(rawData){
-      localStorage.setItem('rawData', JSON.stringify(rawData));
-      Article.loadAll(rawData);
+    $.getJSON('../data/hackerIpsum.json')
+    .then(function(data){
+      localStorage.setItem('rawData', JSON.stringify(data));
+      Article.loadAll(data);
       articleView.initIndexPage();
     });
   }
